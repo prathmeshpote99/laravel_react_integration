@@ -1,5 +1,8 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export default function Dashboard({ auth }) {
     return (
@@ -20,29 +23,42 @@ export default function Dashboard({ auth }) {
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">First</th>
-                                        <th scope="col">Last</th>
-                                        <th scope="col">Handle</th>
+                                        <th className="col-5">Name</th>
+                                        <th className="col-5">Email</th>
+                                        <th className="col-1 text-center">
+                                            Edit
+                                        </th>
+                                        <th className="col-1 text-center">
+                                            View
+                                        </th>
+                                        <th className="col-1 text-center">
+                                            Delete
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">1</th>
                                         <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td colspan="2">Larry the Bird</td>
-                                        <td>@twitter</td>
+                                        <td>mark@gmail.com</td>
+                                        <td className="text-center">
+                                            <EditIcon
+                                                fontSize="small"
+                                                cursor="pointer"
+                                            />
+                                        </td>
+                                        <td className="text-center">
+                                            <VisibilityIcon
+                                                fontSize="small"
+                                                cursor="pointer"
+                                            />
+                                        </td>
+                                        <td className="text-center">
+                                            <DeleteIcon
+                                                color="error"
+                                                fontSize="small"
+                                                cursor="pointer"
+                                            />
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
