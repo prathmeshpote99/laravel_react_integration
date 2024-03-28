@@ -7,10 +7,19 @@ import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
+import { Modal, Button } from "react-bootstrap";
 
 export default function Dashboard({ auth }) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [show, setShow] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null);
+
+    const handleClose = () => setShow(false);
+    const handleShow = (user) => {
+        setCurrentUser(user);
+        setShow(true);
+    };
 
     //Fetch all users
     async function fetchUsers() {
@@ -87,6 +96,11 @@ export default function Dashboard({ auth }) {
                                                             <VisibilityIcon
                                                                 fontSize="small"
                                                                 cursor="pointer"
+                                                                onClick={() =>
+                                                                    handleShow(
+                                                                        user
+                                                                    )
+                                                                }
                                                             />
                                                         </td>
                                                         <td className="text-center">
@@ -101,6 +115,85 @@ export default function Dashboard({ auth }) {
                                             );
                                         })}
                                     </table>
+                                    <Modal
+                                        show={show}
+                                        centered
+                                        onHide={handleClose}
+                                    >
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>
+                                                User Details
+                                            </Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            <div className="container">
+                                                {currentUser && (
+                                                    <>
+                                                        <div className="row">
+                                                            <p className="col-2 d-flex justify-content-center align-items-center">
+                                                                <strong>
+                                                                    ID:
+                                                                </strong>{" "}
+                                                            </p>
+                                                            <p className="col-10">
+                                                                <input
+                                                                    className="form-control"
+                                                                    value={
+                                                                        currentUser.id
+                                                                    }
+                                                                    disabled
+                                                                />
+                                                            </p>
+                                                        </div>
+                                                        <div className="row">
+                                                            <p className="col-2 d-flex justify-content-center align-items-center">
+                                                                <strong>
+                                                                    Name:
+                                                                </strong>{" "}
+                                                            </p>
+                                                            <p className="col-10">
+                                                                <input
+                                                                    className="form-control"
+                                                                    value={
+                                                                        currentUser.name
+                                                                    }
+                                                                    disabled
+                                                                />
+                                                            </p>
+                                                        </div>
+                                                        <div className="row">
+                                                            <p className="col-2 d-flex justify-content-center align-items-center">
+                                                                <strong>
+                                                                    Email:
+                                                                </strong>{" "}
+                                                            </p>
+                                                            <p className="col-10">
+                                                                <input
+                                                                    className="form-control"
+                                                                    value={
+                                                                        currentUser.email
+                                                                    }
+                                                                    disabled
+                                                                />
+                                                            </p>
+                                                        </div>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                            <div className="w-100">
+                                                <div className="d-flex justify-content-center align-items-center text-center">
+                                                    <Button
+                                                        variant="dark"
+                                                        onClick={handleClose}
+                                                    >
+                                                        Close
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </Modal.Footer>
+                                    </Modal>
                                 </>
                             )}
                         </div>
