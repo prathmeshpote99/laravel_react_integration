@@ -83,7 +83,9 @@ export default function Dashboard({ auth }) {
                                     <table className="table table-hover table-bordered mt-3">
                                         <thead>
                                             <tr>
-                                                <th className="col-1">No</th>
+                                                <th className="col-1 text-center">
+                                                    No
+                                                </th>
                                                 <th className="col-4">Name</th>
                                                 <th className="col-4">Email</th>
                                                 <th className="col-1 text-center">
@@ -102,7 +104,9 @@ export default function Dashboard({ auth }) {
                                                 <>
                                                     <tbody>
                                                         <tr>
-                                                            <td>{user.id}</td>
+                                                            <td className="text-center">
+                                                                {user.id}
+                                                            </td>
                                                             <td>{user.name}</td>
                                                             <td>
                                                                 {user.email}
