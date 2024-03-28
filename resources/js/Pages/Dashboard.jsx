@@ -6,7 +6,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
-import { Box, CircularProgress } from "@mui/material";
+import ApplicationLogo from "@/Components/ApplicationLogo";
 
 export default function Dashboard({ auth }) {
     const [data, setData] = useState([]);
@@ -47,7 +47,9 @@ export default function Dashboard({ auth }) {
                         <div className="p-6 text-gray-900">
                             {loading ? (
                                 <div className="d-flex justify-content-center align-items-center mt-5 mb-5">
-                                    <CircularProgress color="inherit" />
+                                    <div className="opacity-50 animate-bounce">
+                                        <ApplicationLogo className="block h-10 fill-current text-gray-800" />
+                                    </div>
                                 </div>
                             ) : (
                                 <>
