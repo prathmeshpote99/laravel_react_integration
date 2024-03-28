@@ -80,7 +80,7 @@ export default function Dashboard({ auth }) {
                                 </div>
                             ) : (
                                 <>
-                                    <table className="table table-hover">
+                                    <table className="table table-hover table-bordered mt-3">
                                         <thead>
                                             <tr>
                                                 <th className="col-1">No</th>
