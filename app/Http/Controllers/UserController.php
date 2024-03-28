@@ -29,4 +29,19 @@ class UserController extends Controller
             ], 500);
         }
     }
+
+    function deleteUser($id)
+    {
+        try {
+            $user = User::find($id);
+            $user->delete();
+            return response()->json([
+                "message" => "User deleted successfully!",
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "message" => "Error deleting user"
+            ], 500);
+        }
+    }
 }

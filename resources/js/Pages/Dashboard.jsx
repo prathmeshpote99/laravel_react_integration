@@ -3,22 +3,40 @@ import { Head } from "@inertiajs/react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useEffect } from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import { Modal, Button } from "react-bootstrap";
 
 export default function Dashboard({ auth }) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [show, setShow] = useState(false);
+    const [showView, setShowView] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
+    const [showDelete, setShowDelete] = useState(false);
 
-    const handleClose = () => setShow(false);
+    const handleDeleteShow = (user) => {
+        setShowDelete(true);
+    };
+
+    const handleDeleteClose = () => setShowDelete(false);
+
+    const handleDeleteConfirm = async (id) => {
+        axios
+            .delete(`/delete/${id}`)
+            .then((res) => {
+                console.log(res.data.message);
+                handleDeleteClose();
+                fetchUsers();
+            })
+            .catch((err) => console.error(err));
+    };
+
+    const handleClose = () => setShowView(false);
+
     const handleShow = (user) => {
         setCurrentUser(user);
-        setShow(true);
+        setShowView(true);
     };
 
     //Fetch all users
@@ -81,42 +99,98 @@ export default function Dashboard({ auth }) {
                                         </thead>
                                         {data.map((user) => {
                                             return (
-                                                <tbody>
-                                                    <tr>
-                                                        <td>{user.id}</td>
-                                                        <td>{user.name}</td>
-                                                        <td>{user.email}</td>
-                                                        <td className="text-center">
-                                                            <EditIcon
-                                                                fontSize="small"
-                                                                cursor="pointer"
-                                                            />
-                                                        </td>
-                                                        <td className="text-center">
-                                                            <VisibilityIcon
-                                                                fontSize="small"
-                                                                cursor="pointer"
-                                                                onClick={() =>
-                                                                    handleShow(
-                                                                        user
-                                                                    )
-                                                                }
-                                                            />
-                                                        </td>
-                                                        <td className="text-center">
-                                                            <DeleteIcon
-                                                                color="error"
-                                                                fontSize="small"
-                                                                cursor="pointer"
-                                                            />
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
+                                                <>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>{user.id}</td>
+                                                            <td>{user.name}</td>
+                                                            <td>
+                                                                {user.email}
+                                                            </td>
+                                                            <td className="text-center">
+                                                                <EditIcon
+                                                                    fontSize="small"
+                                                                    cursor="pointer"
+                                                                />
+                                                            </td>
+                                                            <td className="text-center">
+                                                                <VisibilityIcon
+                                                                    fontSize="small"
+                                                                    cursor="pointer"
+                                                                    onClick={() =>
+                                                                        handleShow(
+                                                                            user
+                                                                        )
+                                                                    }
+                                                                />
+                                                            </td>
+                                                            <td className="text-center">
+                                                                <DeleteIcon
+                                                                    color="error"
+                                                                    fontSize="small"
+                                                                    cursor="pointer"
+                                                                    onClick={() =>
+                                                                        handleDeleteShow(
+                                                                            user
+                                                                        )
+                                                                    }
+                                                                />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <Modal
+                                                        show={showDelete}
+                                                        centered
+                                                        onHide={
+                                                            handleDeleteClose
+                                                        }
+                                                    >
+                                                        <Modal.Header
+                                                            closeButton
+                                                        >
+                                                            <Modal.Title>
+                                                                Confirm Delete
+                                                            </Modal.Title>
+                                                        </Modal.Header>
+                                                        <Modal.Body>
+                                                            <div className="d-flex justify-content-center align-items-center text-center">
+                                                                Are you sure you
+                                                                want to delete
+                                                                this user?
+                                                            </div>
+                                                        </Modal.Body>
+                                                        <Modal.Footer>
+                                                            <div className="w-100">
+                                                                <div className="d-flex justify-content-center align-items-center text-center">
+                                                                    <Button
+                                                                        variant="secondary"
+                                                                        onClick={
+                                                                            handleDeleteClose
+                                                                        }
+                                                                    >
+                                                                        Close
+                                                                    </Button>
+                                                                    <Button
+                                                                        className="ml-5"
+                                                                        variant="danger"
+                                                                        onClick={() => {
+                                                                            handleDeleteConfirm(
+                                                                                user.id
+                                                                            );
+                                                                        }}
+                                                                    >
+                                                                        Delete
+                                                                    </Button>
+                                                                </div>
+                                                            </div>
+                                                        </Modal.Footer>
+                                                    </Modal>
+                                                </>
                                             );
                                         })}
                                     </table>
                                     <Modal
-                                        show={show}
+                                        show={showView}
                                         centered
                                         onHide={handleClose}
                                     >
